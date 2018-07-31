@@ -112,12 +112,12 @@ namespace RockSniffer
         {
             //Clear output / create output files
             ClearOutput();
-
-            Logger.Log("Waiting for rocksmith");
+            Logger.Log(string.Format("Waiting for rocksmith on {0}", Environment.OSVersion.Platform));
 
             //Loop infinitely trying to find rocksmith process
             while (true)
             {
+                Logger.Log("DoFindProcess");
                 var processes = Process.GetProcessesByName("Rocksmith2014");
 
                 //Sleep for 1 second if no processes found
@@ -130,7 +130,7 @@ namespace RockSniffer
                 //Select the first rocksmith process and open a handle
                 rsProcess = processes[0];
 
-                if (rsProcess.HasExited || !rsProcess.Responding)
+                if (rsProcess.HasExited || (!CustomAPI.IsRunningOnMono() && !rsProcess.Responding))
                 {
                     Thread.Sleep(1000);
                     continue;
@@ -160,7 +160,7 @@ namespace RockSniffer
                 {
                     break;
                 }
-
+                Logger.Log("DoOutputDetails");
                 OutputDetails();
 
                 //GOTTA GO FAST
