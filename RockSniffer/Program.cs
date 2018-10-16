@@ -117,7 +117,6 @@ namespace RockSniffer
             //Loop infinitely trying to find rocksmith process
             while (true)
             {
-                Logger.Log("DoFindProcess");
                 var processes = Process.GetProcessesByName("Rocksmith2014");
 
                 //Sleep for 1 second if no processes found
