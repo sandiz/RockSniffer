@@ -160,7 +160,6 @@ namespace RockSniffer
                 {
                     break;
                 }
-                Logger.Log("DoOutputDetails");
                 OutputDetails();
 
                 //GOTTA GO FAST
