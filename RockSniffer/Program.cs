@@ -204,8 +204,16 @@ namespace RockSniffer
 
             Logger.Log("Rocksmith found! Sniffing...");
 
+            Sniffer.SnifferActions actions = Sniffer.SnifferActions.NONE;
+
+            if (!config.debugSettings.disableFileHandleSniffing)
+                actions = Sniffer.SnifferActions.SNIFF_FILE_HANDLES;
+
+            // can optionally turn off sniffer actions via config.debugSettings
+            actions |= Sniffer.SnifferActions.MEMORY_READOUT;
+            actions |= Sniffer.SnifferActions.STATE_MACHINE;
             //Initialize file handle reader and memory reader
-            Sniffer sniffer = new Sniffer(rsProcess, cache);
+            Sniffer sniffer = new Sniffer(rsProcess, cache, actions);
 
             //Listen for events
             sniffer.OnSongChanged += Sniffer_OnCurrentSongChanged;
