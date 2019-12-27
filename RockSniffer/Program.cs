@@ -231,7 +231,7 @@ namespace RockSniffer
                 {
                     break;
                 }
-                OutputDetails();
+                //OutputDetails();
 
                 //GOTTA GO FAST
                 Thread.Sleep(1000);
@@ -282,55 +282,55 @@ namespace RockSniffer
             return string.Format(config.formatSettings.percentageFormat, frac * 100d);
         }
 
-        private void OutputDetails()
-        {
-            //TODO: remember state of each file and only update the ones that have changed!
-            foreach (OutputFile of in config.outputSettings.output)
-            {
-                //Clone the output text format so we can replace strings in it without changing the original
-                string outputtext = (string)of.format.Clone();
+        //private void OutputDetails()
+        //{
+        //    //TODO: remember state of each file and only update the ones that have changed!
+        //    foreach (OutputFile of in config.outputSettings.output)
+        //    {
+        //        //Clone the output text format so we can replace strings in it without changing the original
+        //        string outputtext = (string)of.format.Clone();
 
-                //Replace strings from song details
-                outputtext = outputtext.Replace("%SONG_ID%", details.songID);
-                outputtext = outputtext.Replace("%SONG_ARTIST%", details.artistName);
-                outputtext = outputtext.Replace("%SONG_NAME%", details.songName);
-                outputtext = outputtext.Replace("%SONG_ALBUM%", details.albumName);
-                outputtext = outputtext.Replace("%ALBUM_YEAR%", details.albumYear.ToString());
-                outputtext = outputtext.Replace("%SONG_LENGTH%", FormatTime(details.songLength));
+        //        //Replace strings from song details
+        //        outputtext = outputtext.Replace("%SONG_ID%", details.songID);
+        //        outputtext = outputtext.Replace("%SONG_ARTIST%", details.artistName);
+        //        outputtext = outputtext.Replace("%SONG_NAME%", details.songName);
+        //        outputtext = outputtext.Replace("%SONG_ALBUM%", details.albumName);
+        //        outputtext = outputtext.Replace("%ALBUM_YEAR%", details.albumYear.ToString());
+        //        outputtext = outputtext.Replace("%SONG_LENGTH%", FormatTime(details.songLength));
 
-                //Toolkit details
-                if (details.toolkit != null)
-                {
-                    outputtext = outputtext.Replace("%TOOLKIT_VERSION%", details.toolkit.version);
-                    outputtext = outputtext.Replace("%TOOLKIT_AUTHOR%", details.toolkit.author);
-                    outputtext = outputtext.Replace("%TOOLKIT_PACKAGE_VERSION%", details.toolkit.package_version);
-                    outputtext = outputtext.Replace("%TOOLKIT_COMMENT%", details.toolkit.comment);
-                }
+        //        //Toolkit details
+        //        if (details.toolkit != null)
+        //        {
+        //            outputtext = outputtext.Replace("%TOOLKIT_VERSION%", details.toolkit.version);
+        //            outputtext = outputtext.Replace("%TOOLKIT_AUTHOR%", details.toolkit.author);
+        //            outputtext = outputtext.Replace("%TOOLKIT_PACKAGE_VERSION%", details.toolkit.package_version);
+        //            outputtext = outputtext.Replace("%TOOLKIT_COMMENT%", details.toolkit.comment);
+        //        }
 
-                //If this output contained song detail information
-                if (outputtext != of.format)
-                {
-                    //And our current song details are not valid
-                    if (!details.IsValid())
-                    {
-                        //Output nothing
-                        outputtext = "";
-                    }
-                }
+        //        //If this output contained song detail information
+        //        if (outputtext != of.format)
+        //        {
+        //            //And our current song details are not valid
+        //            if (!details.IsValid())
+        //            {
+        //                //Output nothing
+        //                outputtext = "";
+        //            }
+        //        }
 
-                //Replace strings from memory readout
-                outputtext = outputtext.Replace("%SONG_TIMER%", FormatTime(memReadout.songTimer));
-                outputtext = outputtext.Replace("%NOTES_HIT%", memReadout.totalNotesHit.ToString());
-                outputtext = outputtext.Replace("%CURRENT_STREAK%", (memReadout.currentHitStreak - memReadout.currentMissStreak).ToString());
-                outputtext = outputtext.Replace("%HIGHEST_STREAK%", memReadout.highestHitStreak.ToString());
-                outputtext = outputtext.Replace("%NOTES_MISSED%", memReadout.totalNotesMissed.ToString());
-                outputtext = outputtext.Replace("%TOTAL_NOTES%", memReadout.TotalNotes.ToString());
-                outputtext = outputtext.Replace("%CURRENT_ACCURACY%", FormatPercentage((memReadout.totalNotesHit > 0 && memReadout.TotalNotes > 0) ? ((double)memReadout.totalNotesHit / (double)memReadout.TotalNotes) : 0));
+        //        //Replace strings from memory readout
+        //        outputtext = outputtext.Replace("%SONG_TIMER%", FormatTime(memReadout.songTimer));
+        //        outputtext = outputtext.Replace("%NOTES_HIT%", memReadout.totalNotesHit.ToString());
+        //        outputtext = outputtext.Replace("%CURRENT_STREAK%", (memReadout.currentHitStreak - memReadout.currentMissStreak).ToString());
+        //        outputtext = outputtext.Replace("%HIGHEST_STREAK%", memReadout.highestHitStreak.ToString());
+        //        outputtext = outputtext.Replace("%NOTES_MISSED%", memReadout.totalNotesMissed.ToString());
+        //        outputtext = outputtext.Replace("%TOTAL_NOTES%", memReadout.TotalNotes.ToString());
+        //        outputtext = outputtext.Replace("%CURRENT_ACCURACY%", FormatPercentage((memReadout.totalNotesHit > 0 && memReadout.TotalNotes > 0) ? ((double)memReadout.totalNotesHit / (double)memReadout.TotalNotes) : 0));
 
-                //Write to output
-                WriteTextToFileLocking("output/" + of.filename, outputtext);
-            }
-        }
+        //        //Write to output
+        //        WriteTextToFileLocking("output/" + of.filename, outputtext);
+        //    }
+        //}
 
         private void ClearOutput()
         {
